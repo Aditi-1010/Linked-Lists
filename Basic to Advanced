@@ -980,3 +980,93 @@ int main(){
       cout<<"Not a Circular Linked List"<<endl;
    }
 }
+
+//DETECT AND REMOVE LOOP FROM LINKED LIST
+#include<iostream>
+#include<map>
+using namespace std;
+class Node{
+   public:
+   int data;
+   Node* next;
+   Node(int d){
+      this->data = d; 
+      this->next = NULL;
+   }
+};
+bool circularLL(Node* head){
+   if(head==NULL) return true;
+   Node* temp = head->next;
+   while(temp!=NULL && temp!=head){
+      temp = temp->next;
+   }
+   if(temp==head) return true;
+   else return false;
+}
+
+Node* floydDetectloop(Node* head){
+   if(head==NULL){
+      return NULL;
+   }
+   Node* fast = head;
+   Node* slow = head;
+   while(slow!=NULL && fast!=NULL){
+      fast = fast->next;
+      if(fast!=NULL){
+         fast = fast->next;
+      }
+      slow = slow->next;
+      if(slow==fast){
+         cout<<"present at "<<slow->data<<endl;
+         return slow;
+      }
+   }
+   return NULL;
+}
+
+Node* getStartingNode(Node* head){
+   if(head==NULL) return NULL;
+   Node* intersection = floydDetectloop(head);
+   Node* slow = head;
+   while(slow!= intersection){
+      slow = slow->next;
+      intersection = intersection->next;
+   }
+   return slow;
+}
+
+void removeloop(Node* head){
+   if(head==NULL) return;
+   Node* startofloop = getStartingNode(head);
+   Node* temp = startofloop;
+   while(temp->next != startofloop){
+      temp = temp->next;
+   }
+   temp->next = NULL;
+}
+
+void print(Node* head){
+   Node* temp = head;
+   while(temp!=NULL){
+      cout<<temp->data<<endl;
+      temp = temp->next;
+   }
+}
+int main(){
+   Node* newNode = new Node(1);
+   newNode->next = new Node(2);
+   newNode->next->next = new Node(3);
+   newNode->next->next->next = newNode->next;
+   // newNode->next->next->next = NULL;
+   Node* loop = floydDetectloop(newNode);
+   if(loop!=NULL){
+      cout<<"Cycle is present"<<endl;
+   }
+   else{
+      cout<<"Cycle is not present"<<endl;
+   }
+   Node* start = getStartingNode(newNode);
+   cout<<"Loop starts at "<<start->data<<endl;
+   removeloop(newNode);
+   print(newNode);
+}

@@ -711,3 +711,272 @@ int main(){
    deleteNode(tail, 5);
    print(tail);
 }
+
+//REVERSE A SINGLY LINKED LIST
+1)
+ #include<iostream>
+ using namespace std;
+ class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int d){
+       this->data = d;
+       this->next = NULL;
+    }
+ };
+ void reverse(Node* &head, Node* curr, Node* prev){
+    //Base Case
+    if(curr==NULL){
+       head = prev;
+       return;
+    }
+    Node* forward = curr->next;
+    reverse(head, forward, curr);
+    curr->next = prev;
+ }
+ void reverseLL(Node* &head){
+    Node* curr = head;
+    Node* prev = NULL;
+    reverse(head, curr, prev);
+ }
+ void print(Node* &head){
+    Node* temp = head;
+    while(temp!=NULL){
+       cout<<temp->data<<" ";
+       temp = temp->next;
+    }
+    cout<<endl;
+ }
+ int main(){
+     Node* head = new Node(1);
+     head->next = new Node(2);
+     head->next->next = new Node(3);
+    reverseLL(head);
+    print(head);
+ }
+
+2)
+ #include<iostream>
+ using namespace std;
+ class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int d){
+       this->data = d;
+       this->next = NULL;
+    }
+ };
+ void reverseLL(Node* &head){
+    1
+    if(head==NULL || head->next==NULL){
+       return;
+    }
+    Node* prev = NULL;
+    Node* curr = head;
+    while(curr!=NULL){
+       Node* forward = curr->next;
+       curr->next = prev;
+       prev = curr;
+       curr = forward;
+    }
+    head = prev;
+ }
+ void print(Node* &head){
+    Node* temp = head;
+    while(temp!=NULL){
+       cout<<temp->data<<" ";
+       temp = temp->next;
+    }
+    cout<<endl;
+ }
+ int main(){
+     Node* head = new Node(1);
+     head->next = new Node(2);
+     head->next->next = new Node(3);
+    reverseLL(head);
+    print(head);
+ }
+
+//MIDDLE OF A SINGLY LINKED LIST
+ #include<iostream>
+ using namespace std;
+ class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int d){
+       this->data = d;
+       this->next = NULL;
+    }
+ };
+ Node* getMiddle(Node* head){
+    if(head==NULL || head->next==NULL){
+       return head;
+    }
+    if(head->next->next==NULL){
+       return head->next;
+    }
+    Node* slow = head;
+    Node* fast = head->next;
+    while(fast!=NULL){
+       fast = fast->next;
+       if(fast!=NULL){
+          fast = fast->next;
+       }
+       slow = slow->next;
+    }
+    return slow;
+ }
+ void print(Node* head){
+    Node* temp = head;
+    while(temp!=NULL){
+       cout<<temp->data<<" ";
+       temp = temp->next;
+    }
+    cout<<endl;
+ }
+ int main(){
+     Node* head = new Node(1);
+     head->next = new Node(2);
+     head->next->next = new Node(3);
+     head->next->next->next = new Node(4);
+    Node* middle = getMiddle(head);
+    cout<<middle->data<<endl;
+    print(head);
+ }
+
+2)
+ #include<iostream>
+ using namespace std;
+ class Node{
+    public:
+    int data;
+    Node* next;
+    Node(int d){
+       this->data = d;
+       this->next = NULL;
+    }
+ };
+ int getlength(Node* head){
+    int len = 0;
+    while(head!=NULL){
+       len++;
+       head=head->next;
+    }
+    return len;
+ }
+ void print(Node* head){
+    Node* temp = head;
+    while(temp!=NULL){
+       cout<<temp->data<<" ";
+       temp = temp->next;
+    }
+    cout<<endl;
+ }
+ int main(){
+     Node* head = new Node(1);
+     head->next = new Node(2);
+     head->next->next = new Node(3);
+     head->next->next->next = new Node(4);
+    int len = getlength(head);
+    int ans = len/2;
+    Node* temp = head;
+    int cnt = 0;
+    while(cnt<ans){
+       temp = temp->next;
+       cnt++;
+    }
+    cout<<temp->data<<endl;
+    print(head);
+ }
+
+//REVERSE A LINKED LIST IN K GROUP
+#include <iostream>
+using namespace std;
+class Node {
+public:
+  int data;
+  Node *next;
+  Node(int d) {
+    this->data = d;
+    this->next = NULL;
+  }
+};
+Node *reverseLL(Node *head, int k) {
+  Node *prev = NULL;
+  Node *curr = head;
+  Node *forward = NULL;
+  int count = 0;
+  while (curr != NULL && count < k) {
+    forward = curr->next;
+    curr->next = prev;
+    prev = curr;
+    curr = forward;
+    count++;
+  }
+  if (forward != NULL) {
+    head->next = reverseLL(forward, k);
+  }
+  return prev;
+}
+void print(Node* head){
+    Node* temp = head;
+    while(temp!=NULL){
+        cout<<temp->data<<" ";
+        temp = temp->next;
+    }
+}
+int main() {
+  Node *head = new Node(1);
+  head->next = new Node(2);
+  head->next->next = new Node(3);
+  head->next->next->next = new Node(4);
+  head->next->next->next->next = new Node(5);
+  Node *newHead = reverseLL(head, 2);
+  print(newHead);
+}
+
+//CHECK WHETHER THE LINKED LIST IS CIRCULAR
+#include<iostream>
+using namespace std;
+class Node{
+   public:
+   int data;
+   Node* next;
+   Node(int d){
+      this->data = d; 
+      this->next = NULL;
+   }
+};
+bool circularLL(Node* head){
+   if(head==NULL) return true;
+   Node* temp = head->next;
+   while(temp!=NULL && temp!=head){
+      temp = temp->next;
+   }
+   if(temp==head) return true;
+   else return false;
+}
+
+void print(Node* head){
+   Node* temp = head;
+   while(temp!=NULL){
+      cout<<temp->data<<endl;
+      temp = temp->next;
+   }
+}
+int main(){
+   Node* newNode = new Node(1);
+   newNode->next = new Node(2);
+   newNode->next->next = new Node(3);
+   newNode->next->next->next = newNode;
+   // newNode->next->next->next = NULL;
+   if(circularLL(newNode)){
+      cout<<"Circular Linked List"<<endl;
+   }
+   else{
+      cout<<"Not a Circular Linked List"<<endl;
+   }
+}
